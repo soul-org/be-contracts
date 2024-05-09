@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.25;
+pragma solidity ^0.8.25;
 
 import {FunctionsClient} from "@chainlink/contracts/v0.8/functions/dev/v1_0_0/FunctionsClient.sol";
 import {ConfirmedOwner} from "@chainlink/contracts/v0.8/shared/access/ConfirmedOwner.sol";
@@ -44,7 +44,7 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
     string source =
         "const ipfsHash = args[0];"
         "const apiResponse = await Functions.makeHttpRequest({"
-        "url: `https://veda-analytics-api-gl5bbi32cq-ts.a.run.app/api/identify/${ipfsHash}`"
+        "url: `https://soul-analytics-api-gl5bbi32cq-ts.a.run.app/api/identify/${ipfsHash}`"
         "});"
         "if (apiResponse.error) {"
         "throw Error('Request failed');"
