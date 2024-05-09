@@ -42,9 +42,9 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
     // Fetch character name from the Star Wars API.
     // Documentation: https://swapi.info/people
     string source =
-        "const ipfsHash = args[0];"
+        "const token = args[0];"
         "const apiResponse = await Functions.makeHttpRequest({"
-        "url: `https://soul-analytics-api-gl5bbi32cq-ts.a.run.app/api/identify/${ipfsHash}`"
+        "url: `https://soul-analytics-api-gl5bbi32cq-ts.a.run.app/api/stake/${token}`"
         "});"
         "if (apiResponse.error) {"
         "throw Error('Request failed');"
