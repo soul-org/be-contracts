@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script} from "forge-std/Script.sol";
-import {PoolToken} from "../src/PoolToken.sol";
+import {PoolToken} from "../src/staking/token/PoolToken.sol";
 import {console} from "forge-std/console.sol";
 
 contract DeployLpToken is Script {
