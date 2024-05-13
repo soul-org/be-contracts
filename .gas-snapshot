@@ -1,0 +1,3 @@
+PoolTokenTest:testAllowances() (gas: 75953)
+PoolTokenTest:testInitialSupply() (gas: 15612)
+PoolTokenTest:testUsersCantMint() (gas: 8267)
