@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.19;
 
-import "forge-std/Script.sol";
-import "../src/AnalyticsAPICaller.sol";
+import {Script} from "forge-std/Script.sol";
+import {AnalyticsAPICaller} from "../src/AnalyticsAPICaller.sol";
 
 contract AnalyticsAPICallerScript is Script {
     function run() external {
