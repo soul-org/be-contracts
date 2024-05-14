@@ -3,6 +3,8 @@ src = "src"
 out = "out"
 libs = ["lib"]
 
+remappings = ['@chainlink/contracts/=lib/foundry-chainlink-toolkit/lib/chainlink-brownie-contracts/contracts/src']
+
 [profile.ci.fuzz]
 runs = 10_000
 
