@@ -10,7 +10,6 @@ import {PoolToken} from "./token/PoolToken.sol";
  * @dev Staking contract that allows users to stake tokens for rewards
  * @author Arnaud
  */
-
 contract Staking is ReentrancyGuard {
     // ERRORS
     error Staking__TransferFailed();

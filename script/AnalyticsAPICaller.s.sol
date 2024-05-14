@@ -11,9 +11,9 @@ contract AnalyticsAPICallerScript is Script {
 
         bytes32 _dontID = vm.envBytes32("CHAINLINK_DONT_ID");
         address _router = vm.envAddress("CHAINLINK_ROUTER");
-        
+
         AnalyticsAPICaller caller = new AnalyticsAPICaller(_dontID, _router);
-        
+
         vm.stopBroadcast();
     }
 }
