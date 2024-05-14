@@ -6,13 +6,8 @@ import {ConfirmedOwner} from "@chainlink/contracts/v0.8/shared/access/ConfirmedO
 import {FunctionsRequest} from "@chainlink/contracts/v0.8/functions/dev/v1_0_0/libraries/FunctionsRequest.sol";
 
 /**
- * Request testnet LINK and ETH here: https://faucets.chain.link/
- * Find information on LINK Token Contracts and get the latest ETH and LINK faucets here: https://docs.chain.link/resources/link-token-contracts/
- */
-
-/**
- * @title GettingStartedFunctionsConsumer
- * @notice This is an example contract to show how to make HTTP requests using Chainlink
+ * @title AnalyticsAPICaller
+ * @notice This contract makes SOUL analytics HTTP requests using Chainlink Function
  * @dev This contract uses hardcoded values and should not be used in production.
  */
 contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
@@ -36,7 +31,7 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
 
     // Router address - Hardcoded for Sepolia
     // Check to get the router address for your supported network https://docs.chain.link/chainlink-functions/supported-networks
-    address router;
+    address public router;
 
     // JavaScript source code
     // Fetch character name from the Star Wars API.
@@ -53,11 +48,11 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
         "return Functions.encodeString(JSON.stringify(data));";
 
     //Callback gas limit
-    uint32 immutable gasLimit;
+    uint32 public immutable gasLimit;
 
     // donID - Hardcoded for Sepolia
     // Check to get the donID for your supported network https://docs.chain.link/chainlink-functions/supported-networks
-    bytes32 immutable donID;
+    bytes32 public immutable donID;
 
     // State variable to store the returned character information
     string public character;

@@ -1,3 +1,6 @@
+AnalyticsAPICallerTest:testFail_sendRequest() (gas: 57662)
+AnalyticsAPICallerTest:test_checkPublicMembers() (gas: 15286)
+MessengerTest:test_getLatestMessageDetails() (gas: 107591)
 PoolTokenTest:testAllowances() (gas: 75953)
 PoolTokenTest:testInitialSupply() (gas: 15612)
 PoolTokenTest:testUsersCantMint() (gas: 8267)
