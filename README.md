@@ -1,6 +1,20 @@
 # be-contracts
 SOUL solidity contracts backend repository
 
+## build
+
+Installing foundry packages
+
+> foundry install
+
+Installing NPM packages
+
+> npm install
+
+Updating the GIT submodules 
+
+> git submodule update --init
+
 ## sepolia deployment
 
 ## AnalyticsAPICaller
