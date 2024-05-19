@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.25;
 
@@ -8,6 +7,8 @@ import {Client} from "@chainlink/contracts-ccip/v0.8/ccip/libraries/Client.sol";
 import {Withdraw} from "../../utils/Withdraw.sol";
 
 contract MessageSender is Withdraw {
+    error NotEnoughBalance(uint256 currentBalance, uint256 calculatedFees); // Used to make sure contract has enough balance to cover the fees.
+
     enum PayFeesIn {
         Native,
         LINK
@@ -25,12 +26,10 @@ contract MessageSender is Withdraw {
 
     receive() external payable {}
 
-    function send(
-        uint64 destinationChainSelector,
-        address receiver,
-        string memory messageText,
-        PayFeesIn payFeesIn
-    ) external returns (bytes32 messageId) {
+    function send(uint64 destinationChainSelector, address receiver, string memory messageText, PayFeesIn payFeesIn)
+        external
+        returns (bytes32 messageId)
+    {
         Client.EVM2AnyMessage memory message = Client.EVM2AnyMessage({
             receiver: abi.encode(receiver),
             data: abi.encode(messageText),
@@ -39,22 +38,17 @@ contract MessageSender is Withdraw {
             feeToken: payFeesIn == PayFeesIn.LINK ? i_link : address(0)
         });
 
-        uint256 fee = IRouterClient(i_router).getFee(
-            destinationChainSelector,
-            message
-        );
+        uint256 fee = IRouterClient(i_router).getFee(destinationChainSelector, message);
+
+        if (fee > LinkTokenInterface(i_link).balanceOf(address(this))) {
+            revert NotEnoughBalance(LinkTokenInterface(i_link).balanceOf(address(this)), fee);
+        }
 
         if (payFeesIn == PayFeesIn.LINK) {
             LinkTokenInterface(i_link).approve(i_router, fee);
-            messageId = IRouterClient(i_router).ccipSend(
-                destinationChainSelector,
-                message
-            );
+            messageId = IRouterClient(i_router).ccipSend(destinationChainSelector, message);
         } else {
-            messageId = IRouterClient(i_router).ccipSend{value: fee}(
-                destinationChainSelector,
-                message
-            );
+            messageId = IRouterClient(i_router).ccipSend{value: fee}(destinationChainSelector, message);
         }
 
         emit MessageSent(messageId);
