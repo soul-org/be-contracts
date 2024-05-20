@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script} from "forge-std/Script.sol";
-import {AnalyticsAPICaller} from "../src/AnalyticsAPICaller.sol";
+import {AnalyticsAPICaller} from "../src/staking/analytics/AnalyticsAPICaller.sol";
 
 contract AnalyticsAPICallerScript is Script {
     function run() external {

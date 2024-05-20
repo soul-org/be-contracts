@@ -1,7 +1,16 @@
 [profile.default]
-src = "src"
-out = "out"
-libs = ["lib"]
+src = 'src'
+out = 'out'
+libs = ['lib']
+
+[rpc_endpoints]
+ethereumSepolia = "${ETHEREUM_SEPOLIA_RPC_URL}"
+optimismGoerli = "${OPTIMISM_GOERLI_RPC_URL}"
+avalancheFuji = "${AVALANCHE_FUJI_RPC_URL}"
+arbitrumSepolia = "${ARBITRUM_SEPOLIA_RPC_URL}"
+polygonMumbai = "${POLYGON_MUMBAI_RPC_URL}"
+bnbChainTestnet = "${BNB_CHAIN_TESTNET_RPC_URL}"
+baseGoerli = "${BASE_GOERLI_RPC_URL}"
 
 remappings = ['@chainlink/contracts/=lib/foundry-chainlink-toolkit/lib/chainlink-brownie-contracts/contracts/src']
 
