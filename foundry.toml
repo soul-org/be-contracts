@@ -12,6 +12,8 @@ polygonMumbai = "${POLYGON_MUMBAI_RPC_URL}"
 bnbChainTestnet = "${BNB_CHAIN_TESTNET_RPC_URL}"
 baseGoerli = "${BASE_GOERLI_RPC_URL}"
 
+remappings = ['@chainlink/contracts/=lib/foundry-chainlink-toolkit/lib/chainlink-brownie-contracts/contracts/src']
+
 [profile.ci.fuzz]
 runs = 10_000
 

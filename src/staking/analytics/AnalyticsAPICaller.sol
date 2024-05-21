@@ -22,12 +22,7 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
     error UnexpectedRequestID(bytes32 requestId);
 
     // Event to log responses
-    event Response(
-        bytes32 indexed requestId,
-        string character,
-        bytes response,
-        bytes err
-    );
+    event Response(bytes32 indexed requestId, string character, bytes response, bytes err);
 
     // Router address - Hardcoded for Sepolia
     // Check to get the router address for your supported network https://docs.chain.link/chainlink-functions/supported-networks
@@ -36,15 +31,9 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
     // JavaScript source code
     // Fetch character name from the Star Wars API.
     // Documentation: https://swapi.info/people
-    string source =
-        "const token = args[0];"
-        "const apiResponse = await Functions.makeHttpRequest({"
-        "url: `https://soul-analytics-api-gl5bbi32cq-ts.a.run.app/api/stake/${token}`"
-        "});"
-        "if (apiResponse.error) {"
-        "throw Error('Request failed');"
-        "}"
-        "const { data } = apiResponse;"
+    string source = "const token = args[0];" "const apiResponse = await Functions.makeHttpRequest({"
+        "url: `https://soul-analytics-api-gl5bbi32cq-ts.a.run.app/api/stake/${token}`" "});" "if (apiResponse.error) {"
+        "throw Error('Request failed');" "}" "const { data } = apiResponse;"
         "return Functions.encodeString(JSON.stringify(data));";
 
     //Callback gas limit
@@ -72,21 +61,17 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
      * @param args The arguments to pass to the HTTP request
      * @return requestId The ID of the request
      */
-    function sendRequest(
-        uint64 subscriptionId,
-        string[] calldata args
-    ) external onlyOwner returns (bytes32 requestId) {
+    function sendRequest(uint64 subscriptionId, string[] calldata args)
+        external
+        onlyOwner
+        returns (bytes32 requestId)
+    {
         FunctionsRequest.Request memory req;
         req.initializeRequestForInlineJavaScript(source); // Initialize the request with JS code
         if (args.length > 0) req.setArgs(args); // Set the arguments for the request
 
         // Send the request and store the request ID
-        s_lastRequestId = _sendRequest(
-            req.encodeCBOR(),
-            subscriptionId,
-            gasLimit,
-            donID
-        );
+        s_lastRequestId = _sendRequest(req.encodeCBOR(), subscriptionId, gasLimit, donID);
 
         return s_lastRequestId;
     }
@@ -97,11 +82,7 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
      * @param response The HTTP response data
      * @param err Any errors from the Functions request
      */
-    function fulfillRequest(
-        bytes32 requestId,
-        bytes memory response,
-        bytes memory err
-    ) internal override {
+    function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory err) internal override {
         if (s_lastRequestId != requestId) {
             revert UnexpectedRequestID(requestId); // Check if request IDs match
         }
