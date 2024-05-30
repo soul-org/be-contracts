@@ -1,23 +1,66 @@
-# be-contracts
-SOUL solidity contracts backend repository
+## Foundry
 
-## build
+**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
-Installing foundry packages
+Foundry consists of:
 
-> foundry install
+-   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
+-   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
+-   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
+-   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-Installing NPM packages
+## Documentation
 
-> npm install
+https://book.getfoundry.sh/
 
-Updating the GIT submodules 
+## Usage
 
-> git submodule update --init
+### Build
 
-## sepolia deployment
+```shell
+$ forge build
+```
 
-## AnalyticsAPICaller
+### Test
 
-- Contract Address: 0x7854F35413AF8e42b1633eB4244CD7d0528663E5
-- Chainlink subscription: https://functions.chain.link/sepolia/2639
+```shell
+$ forge test
+```
+
+### Format
+
+```shell
+$ forge fmt
+```
+
+### Gas Snapshots
+
+```shell
+$ forge snapshot
+```
+
+### Anvil
+
+```shell
+$ anvil
+```
+
+### Deploy
+
+```shell
+$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```
+
+### Cast
+
+```shell
+$ cast <subcommand>
+```
+
+### Help
+
+```shell
+$ forge --help
+$ anvil --help
+$ cast --help
+```
