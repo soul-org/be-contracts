@@ -7,7 +7,7 @@ import {Lottery} from "../src/Lottery/Lottery.sol";
 import {CreateSubscription, FundSubscription, AddConsumer} from "./Interactions.s.sol";
 
 contract DeployLottery is Script {
-    function run() external returns (Raffle, HelperConfig) {
+    function run() external returns (Lottery, HelperConfig) {
         HelperConfig helperConfig = new HelperConfig();
         (
             uint256 entranceFee,
