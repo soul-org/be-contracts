@@ -36,7 +36,7 @@ contract TokenTransferorTest is StdCheats, Test {
         assertTrue(transferor.allowlistedChains(1));
     }
 
-    function testFail_transferTokensPayLINK() external {
+    function test_RevertWhen_transferTokensPayLINK_InsufficientLinkBalance() external {
         link.transfer(address(transferor), 100);
         assertEq(link.balanceOf(address(transferor)), 100);
 
@@ -45,15 +45,35 @@ contract TokenTransferorTest is StdCheats, Test {
         assertEq(token.balanceOf(address(transferor)), 10);
 
         transferor.allowlistDestinationChain(1, true);
+        
+        // Expect revert due to insufficient LINK balance to cover fees
+        // Mock router returns fee of 1, but we need to approve the token transfer
+        // This will fail because the transferor contract doesn't have enough token balance
+        vm.expectRevert();
         transferor.transferTokensPayLINK(1, receiver, address(token), 10);
     }
 
-    function testFail_NotEnoughBalance() external {
+    function test_RevertWhen_NotEnoughBalance() external {
         transferor.allowlistDestinationChain(1, true);
+        
+        // Expect NotEnoughBalance error when contract has 0 LINK but needs to pay fees
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                TokenTransferor.NotEnoughBalance.selector,
+                0,
+                1
+            )
+        );
         transferor.transferTokensPayLINK(1, receiver, address(token), 10);
     }
 
-    function testFail_DestinationChainNotAllowlisted() external {
+    function test_RevertWhen_DestinationChainNotAllowlisted() external {
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                TokenTransferor.DestinationChainNotAllowlisted.selector,
+                1
+            )
+        );
         transferor.transferTokensPayLINK(1, receiver, address(token), 10);
     }
 }
