@@ -32,13 +32,16 @@ contract HelperConfig is Script {
     }
 
     function getAvalancheEthConfig() public view returns (NetworkConfig memory) {
+        uint64 subscriptionId = 0;
+        require(subscriptionId != 0, "HelperConfig: Fuji subscription ID must be set. Do not create a new subscription.");
+        
         return NetworkConfig({
             entranceFee: 0.01 ether,
             interval: 30,
             vrfCoordinator: 0x2eD832Ba664535e5886b75D64C46EB9a228C2610,
             gasLane: 0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61,
-            subscriptionId: 0, // Update this our subscriptionId!
-            callbackGasLimit: 500000, // gas!!!
+            subscriptionId: subscriptionId,
+            callbackGasLimit: 500000,
             link: 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846,
             deployerKey: vm.envUint("PRIVATE_KEY")
         });
