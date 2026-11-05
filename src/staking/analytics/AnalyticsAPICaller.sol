@@ -49,7 +49,7 @@ contract AnalyticsAPICaller is FunctionsClient, ConfirmedOwner {
     /**
      * @notice Initializes the contract with the Chainlink router address and sets the contract owner
      */
-    constructor(bytes32 _donID, address _router) FunctionsClient(router) ConfirmedOwner(msg.sender) {
+    constructor(bytes32 _donID, address _router) FunctionsClient(_router) ConfirmedOwner(msg.sender) {
         router = _router;
         gasLimit = 300000;
         donID = _donID;
