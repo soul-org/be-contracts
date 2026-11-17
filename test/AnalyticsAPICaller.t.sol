@@ -24,12 +24,14 @@ contract AnalyticsAPICallerTest is Test {
         assertEq(apiCaller.gasLimit(), 300000);
     }
 
-    function testFail_sendRequest() external {
+    function test_sendRequest() external {
         string[] memory args = new string[](1);
         args[0] = "NY";
 
         bytes32 requestId = apiCaller.sendRequest(1234, args);
 
-        assertEq(requestId,bytes32("123"));
+        assertEq(requestId, bytes32("123"));
+        assertEq(router.lastRequestSender(), address(apiCaller));
+        assertTrue(router.lastRequestSender() != address(0), "Router should receive request from non-zero address");
     }
 }

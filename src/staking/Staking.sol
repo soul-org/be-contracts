@@ -15,6 +15,9 @@ contract Staking is ReentrancyGuard {
     error Staking__TransferFailed();
     error Staking__WithdrawFailed();
     error Staking__NeedMoreThanZero();
+    error Staking__UnauthorizedBeneficiary();
+    error Staking__RewardTokenIsStakingToken();
+    error Staking__NotOwner();
 
     // STORAGE
     IERC20 public s_stakingToken;
@@ -22,6 +25,8 @@ contract Staking is ReentrancyGuard {
     uint256 public s_totalSupply;
     uint256 public s_rewardPerTokenStored;
     uint256 public s_lastUpdateTime;
+    address public s_owner;
+    address public s_authorizedCaller;
 
     // CONSTANTS
     uint256 public constant REWARD_RATE = 100;
@@ -63,8 +68,17 @@ contract Staking is ReentrancyGuard {
     }
 
     constructor(address _stakingToken, address _rewardToken) {
+        if (_stakingToken == _rewardToken) {
+            revert Staking__RewardTokenIsStakingToken();
+        }
         s_stakingToken = IERC20(_stakingToken);
         s_rewardToken = IERC20(_rewardToken);
+        s_owner = msg.sender;
+    }
+
+    function setAuthorizedCaller(address _caller) external {
+        if (msg.sender != s_owner) revert Staking__NotOwner();
+        s_authorizedCaller = _caller;
     }
 
     /**
@@ -100,13 +114,17 @@ contract Staking is ReentrancyGuard {
     function stake(uint256 _amount, address onBehalfOf)
         external
         nonReentrant
-        updateReward(msg.sender)
+        updateReward(onBehalfOf)
         moreThanZero(_amount)
     {
+        if (onBehalfOf != msg.sender && msg.sender != s_authorizedCaller) {
+            revert Staking__UnauthorizedBeneficiary();
+        }
+
         // Update the total supply
         s_totalSupply += _amount;
         // Update the balance of the user
-        s_balances[msg.sender] += _amount;
+        s_balances[onBehalfOf] += _amount;
 
         // Transfer the tokens to the contract
         if (!s_stakingToken.transferFrom(msg.sender, address(this), _amount)) {
@@ -131,6 +149,10 @@ contract Staking is ReentrancyGuard {
         }
     }
 
+    /**
+     * @notice Claims the reward for the caller
+     * @dev Reward tokens must be transferred into the contract separately. This function does not mint them.
+     */
     function claimReward() external nonReentrant updateReward(msg.sender) {
         uint256 reward = s_rewards[msg.sender];
         s_rewards[msg.sender] = 0;

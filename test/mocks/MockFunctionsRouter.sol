@@ -4,6 +4,8 @@ pragma solidity ^0.8.13;
 import "@chainlink/contracts/v0.8/functions/dev/v1_0_0/interfaces/IFunctionsRouter.sol";
 
 contract MockFunctionsRouter is IFunctionsRouter {
+    address public lastRequestSender;
+
     function getAllowListId() external view override returns (bytes32) {}
 
     function setAllowListId(bytes32 allowListId) external override {}
@@ -17,6 +19,7 @@ contract MockFunctionsRouter is IFunctionsRouter {
         uint32 callbackGasLimit,
         bytes32 donId
     ) external override returns (bytes32) {
+        lastRequestSender = msg.sender;
         return bytes32("123");
     }
 
